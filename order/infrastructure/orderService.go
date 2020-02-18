@@ -1,17 +1,16 @@
 package infrastructure
 
 import (
+	"dashboard/order/domain/entity"
 	"encoding/json"
-	"dashboard/order/domain"
 	"fmt"
 	"net/http"
 )
 
-type OrderServiceClient struct{}
+type OrderService struct{}
 
-func (orderServiceClient OrderServiceClient) GetOrder(id string) (domain.Order, error) {
-	var err error
-	var order domain.Order
+func (orderService OrderService) GetOrder(id string) (entity.Order, error) {
+	var order entity.Order
 	response, err := http.Get(fmt.Sprintf("order-service/orders/%s", id))
 	if err != nil {
 		return order, err

@@ -1,7 +1,7 @@
-package domain
+package entity
 
 type Order struct {
 	ID     string
 	UserID string
-	Sum    float32
+	Sum    float64
 }

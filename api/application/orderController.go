@@ -1,9 +1,9 @@
-package controllers
+package application
 
 import (
 	"context"
-	orderDomain "dashboard/order/domain"
-	orderInterfaces "dashboard/order/interfaces"
+	"dashboard/order/domain/entity"
+	"dashboard/order/domain/service"
 	"flamingo.me/flamingo/v3/framework/web"
 )
 
@@ -11,21 +11,21 @@ const orderIDKey = "orderID"
 
 type (
 	OrderController struct {
-		responder          *web.Responder
-		orderServiceClient orderInterfaces.IOrderServiceClient
+		responder    *web.Responder
+		orderService service.IOrderService
 	}
 
 	GetOrderResponse struct {
-		Order orderDomain.Order
+		Order entity.Order
 	}
 )
 
 func (orderController *OrderController) Inject(
 	responder *web.Responder,
-	orderServiceClient orderInterfaces.IOrderServiceClient,
+	orderService service.IOrderService,
 ) {
 	orderController.responder = responder
-	orderController.orderServiceClient = orderServiceClient
+	orderController.orderService = orderService
 }
 
 func (orderController *OrderController) Get(ctx context.Context, req *web.Request) web.Result {
@@ -34,7 +34,7 @@ func (orderController *OrderController) Get(ctx context.Context, req *web.Reques
 		return orderController.responder.ServerError(err)
 	}
 
-	order, err := orderController.orderServiceClient.GetOrder(orderID)
+	order, err := orderController.orderService.GetOrder(orderID)
 	if err != nil {
 		return orderController.responder.ServerError(err)
 	}
