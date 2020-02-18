@@ -1,15 +1,15 @@
 package api
 
 import (
-	"dashboard/api/application"
+	"dashboard/api/interfaces"
 	"flamingo.me/flamingo/v3/framework/web"
 )
 
 type Routes struct {
-	orderController application.OrderController
+	orderController interfaces.OrderController
 }
 
-func (routes *Routes) Inject(orderController *application.OrderController) {
+func (routes *Routes) Inject(orderController *interfaces.OrderController) {
 	routes.orderController = *orderController
 }
 
